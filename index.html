@@ -1,32 +1,288 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Jorge CyberSpace</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jorge CyberSpace</title>
+  
+  <style>
+    /* Estilos generales */
+    body {
+      background-color: #0d0d0f;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* BARRA SUPERIOR (HEADER) */
+    .barra-superior {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #121214;
+      padding: 12px 20px;
+      border-bottom: 1px solid #2a2a2e;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* Menú Hamburguesa (3 rayitas) */
+    .btn-menu {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 5px;
+    }
+
+    .btn-menu span {
+      width: 25px;
+      height: 3px;
+      background-color: #ffffff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .btn-menu:hover span {
+      background-color: #00ffcc;
+    }
+
+    /* Título / Logo */
+    .logo-sitio {
+      font-size: 1.1rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #00ffcc;
+      text-transform: uppercase;
+    }
+
+    /* Lupa de búsqueda */
+    .btn-busqueda {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-busqueda svg {
+      width: 24px;
+      height: 24px;
+      fill: #ffffff;
+      transition: fill 0.3s;
+    }
+
+    .btn-busqueda:hover svg {
+      fill: #00ffcc;
+    }
+
+    /* CAJA DE BÚSQUEDA DESPLEGABLE */
+    .contenedor-buscador {
+      display: none;
+      background-color: #16161a;
+      padding: 15px 20px;
+      border-bottom: 1px solid #2a2a2e;
+      text-align: center;
+    }
+
+    .contenedor-buscador.activo {
+      display: block;
+    }
+
+    .input-buscador {
+      width: 100%;
+      max-width: 600px;
+      background-color: #0d0d0f;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px 15px;
+      color: #ffffff;
+      font-size: 0.95rem;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    .input-buscador:focus {
+      border-color: #00ffcc;
+    }
+
+    /* Estilos de la sección Proyectos */
+    .contenedor-proyectos {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .titulo-seccion {
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      color: #e0e0e0;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 5px;
+    }
+
+    /* Tarjetas de proyectos */
+    .tarjeta-proyecto {
+      background-color: rgba(18, 18, 20, 0.9);
+      border: 1px solid #2a2a2e;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .tarjeta-proyecto:hover {
+      transform: translateY(-5px);
+      border-color: #00ffcc;
+    }
+
+    .imagen-contenedor {
+      position: relative;
+      width: 100%;
+    }
+
+    .imagen-contenedor img {
+      width: 100%;
+      max-height: 280px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .badge-plataforma {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #111;
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .contenido-proyecto {
+      padding: 15px;
+    }
+
+    .contenido-proyecto h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .contenido-proyecto p {
+      font-size: 0.9rem;
+      color: #aaaaaa;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+
+    .etiquetas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .etiquetas span {
+      background-color: #252529;
+      color: #888;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+  </style>
 </head>
-<body style="background-image: url('FONDO.jpg'); background-size: cover; background-attachment: fixed; background-position: center; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;">
+<body>
 
-    <!-- Tarjeta Central -->
-    <div style="background: rgba(0, 0, 0, 0.75); padding: 40px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); text-align: center; max-width: 450px; width: 90%;">
-        
-        <!-- Título principal -->
-        <h1 style="margin-top: 0; font-size: 32px; color: #fff; text-shadow: 0 0 12px rgba(168, 85, 247, 0.8);">Jorge CyberSpace</h1>
-        
-        <p style="color: #bbb; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
-            Bienvenido a mi portal personal. Explora mis proyectos y contenido.
-        </p>
+  <!-- BARRA SUPERIOR CON MENÚ Y LUPA -->
+  <header class="barra-superior">
+    <!-- Las 3 rayitas del menú -->
+    <button class="btn-menu" aria-label="Menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-        <!-- Botones con estilo -->
-        <div style="display: flex; flex-direction: column; gap: 15px;">
-            <a href="#" style="background: linear-gradient(90deg, #8b5cf6, #3b82f6); color: white; padding: 12px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s;">
-                Ver Proyectos
-            </a>
-            <a href="#" style="border: 2px solid #8b5cf6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s;">
-                Contacto
-            </a>
+    <!-- Nombre del sitio -->
+    <div class="logo-sitio">JORGE CYBERSPACE</div>
+
+    <!-- Icono de Lupa -->
+    <button class="btn-busqueda" id="btnLupa" aria-label="Buscar">
+      <svg viewBox="0 0 24 24">
+        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- CAJA DE BÚSQUEDA DESPLEGABLE -->
+  <div class="contenedor-buscador" id="cajaBuscador">
+    <input type="text" id="inputBuscar" class="input-buscador" placeholder="Escribe para buscar un proyecto...">
+  </div>
+
+  <!-- SECCIÓN DE PROYECTOS -->
+  <section id="proyectos" class="contenedor-proyectos">
+    <h2 class="titulo-seccion">>>> ÚLTIMAS_ACTUALIZACIONES</h2>
+
+    <!-- Tarjeta 1 -->
+    <div class="tarjeta-proyecto">
+      <div class="imagen-contenedor">
+        <span class="badge-plataforma">PC</span>
+        <img src="FONDO.jpg" alt="Proyecto">
+      </div>
+      <div class="contenido-proyecto">
+        <h3>PROYECTO #1</h3>
+        <p>Descripción breve de las características, tecnologías utilizadas o detalles de tu proyecto...</p>
+        <div class="etiquetas">
+          <span>CATEGORÍA 1</span>
+          <span>CATEGORÍA 2</span>
+          <span>VERSIÓN 1.0</span>
         </div>
-
+      </div>
     </div>
+
+  </section>
+
+  <!-- JAVASCRIPT CORREGIDO -->
+  <script>
+    const btnLupa = document.getElementById('btnLupa');
+    const cajaBuscador = document.getElementById('cajaBuscador');
+    const inputBuscar = document.getElementById('inputBuscar');
+
+    // Muestra u oculta el buscador al hacer clic en la lupa
+    btnLupa.addEventListener('click', function() {
+      cajaBuscador.classList.toggle('activo');
+      if (cajaBuscador.classList.contains('activo')) {
+        inputBuscar.focus();
+      }
+    });
+
+    // Filtra las tarjetas en tiempo real al escribir
+    inputBuscar.addEventListener('keyup', function() {
+      const busqueda = inputBuscar.value.toLowerCase();
+      const tarjetas = document.querySelectorAll('.tarjeta-proyecto');
+
+      tarjetas.forEach(tarjeta => {
+        const texto = tarjeta.textContent.toLowerCase();
+        if (texto.includes(busqueda)) {
+          tarjeta.style.display = 'block';
+        } else {
+          tarjeta.style.display = 'none';
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
