@@ -119,7 +119,7 @@
       margin-top: 5px;
       border-top: 1px dashed rgba(98, 242, 219, 0.3);
       color: #62f2db;
-      display: none; /* Oculto por defecto */
+      display: none;
     }
 
     .menu-admin-delete {
@@ -315,7 +315,7 @@
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Programas')">Programas</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Sistemas')">Sistemas</a>
       
-      <!-- Panel de administración (Ocultos por defecto) -->
+      <!-- Panel de administración -->
       <a id="btn-admin-add" class="menu-item menu-admin" onclick="mostrarFormularioAdd(this)">➕ Añadir Juego</a>
       <a id="btn-admin-del" class="menu-item menu-admin menu-admin-delete" onclick="mostrarFormularioDel(this)">🗑️ Eliminar Juego</a>
     </nav>
@@ -396,7 +396,7 @@
     let datosContenido = {};
     let seccionActual = 'Emuladores';
 
-    // --- DETECTOR DE CLAVE EN EL AIRE: 34814733 ---
+    // --- CLAVE SECRETA EN EL AIRE: 34814733 ---
     const CLAVE_SECRETA = "34814733";
     let teclasEscritas = "";
 
@@ -428,15 +428,14 @@
         const res = await fetch(URL_FIREBASE);
         const data = await res.json();
         
-        if (data) {
+        if (data && typeof data === 'object') {
           datosContenido = data;
         } else {
-          datosContenido = {
-            'Emuladores': [{ nombre: 'PCSX2 Portable', url: 'https://www.mediafire.com/file/whqmv0xixjaas4o/PCSX2_Portable__Jorge-CyberSpace.7z/file' }]
-          };
+          datosContenido = {};
         }
       } catch (e) {
         console.error("Error al cargar Firebase:", e);
+        datosContenido = {};
       }
       cargarContenido(seccionActual);
     }
@@ -470,11 +469,13 @@
 
       if (items.length > 0) {
         items.forEach((item) => {
-          const card = document.createElement('div');
-          card.className = 'item-card';
-          card.innerHTML = `<span class="item-title">${item.nombre}</span>`;
-          card.onclick = () => seleccionarItem(card, item);
-          lista.appendChild(card);
+          if (item && item.nombre && item.url) {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.innerHTML = `<span class="item-title">${item.nombre}</span>`;
+            card.onclick = () => seleccionarItem(card, item);
+            lista.appendChild(card);
+          }
         });
       } else {
         lista.innerHTML = '<p style="font-size:12px; color:#aaa; text-align:center; padding-top:20px;">Sin contenido en esta sección.</p>';
@@ -523,10 +524,12 @@
 
       const juegos = datosContenido[cat] || [];
       juegos.forEach((juego, index) => {
-        const opt = document.createElement('option');
-        opt.value = index;
-        opt.textContent = juego.nombre;
-        selectJuegos.appendChild(opt);
+        if (juego && juego.nombre) {
+          const opt = document.createElement('option');
+          opt.value = index;
+          opt.textContent = juego.nombre;
+          selectJuegos.appendChild(opt);
+        }
       });
     }
 
@@ -547,25 +550,33 @@
       datosContenido[categoria].push({ nombre: nombre, url: url });
 
       try {
-        await fetch(URL_FIREBASE, {
+        const res = await fetch(URL_FIREBASE, {
           method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(datosContenido)
         });
 
-        document.getElementById('admin-nombre').value = '';
-        document.getElementById('admin-url').value = '';
+        if (res.ok) {
+          document.getElementById('admin-nombre').value = '';
+          document.getElementById('admin-url').value = '';
 
-        alert('¡Montado en la nube con éxito!');
+          alert('¡Montado en la nube con éxito!');
 
-        const menuItems = document.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-          if (item.textContent.trim() === categoria) {
-            seleccionarSeccion(item, categoria);
-          }
-        });
+          // Cargar inmediatamente la base de datos actualizada
+          await cargarBaseDatos();
+
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+            if (item.textContent.trim() === categoria) {
+              seleccionarSeccion(item, categoria);
+            }
+          });
+        } else {
+          alert('Firebase no aceptó la petición. Revisa las reglas de escritura.');
+        }
 
       } catch (e) {
-        alert('Hubo un error al guardar en la nube.');
+        alert('Hubo un error de conexión al guardar.');
       }
     }
 
@@ -584,25 +595,32 @@
       datosContenido[cat].splice(index, 1);
 
       try {
-        await fetch(URL_FIREBASE, {
+        const res = await fetch(URL_FIREBASE, {
           method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(datosContenido)
         });
 
-        alert('¡Juego eliminado con éxito!');
+        if (res.ok) {
+          alert('¡Juego eliminado con éxito!');
+          await cargarBaseDatos();
 
-        const menuItems = document.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-          if (item.textContent.trim() === cat) {
-            seleccionarSeccion(item, cat);
-          }
-        });
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+            if (item.textContent.trim() === cat) {
+              seleccionarSeccion(item, cat);
+            }
+          });
+        } else {
+          alert('Error al actualizar en la nube.');
+        }
 
       } catch (e) {
         alert('Error al eliminar en la nube.');
       }
     }
 
+    // Inicialización de la base de datos
     cargarBaseDatos();
   </script>
 
