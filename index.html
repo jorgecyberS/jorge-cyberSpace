@@ -8,7 +8,116 @@
     <!-- Verificación de Google Search Console -->
     <meta name="google-site-verification" content="Tcy9hVZrqCfzJnk_oImJ4oTlncO6nLB-IUQUQGjr79Y" />
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos base para evitar la pantalla blanca */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0f0f14;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #8a2be2;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            color: #00d2ff;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+        }
+        header p {
+            color: #aaa;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .search-container {
+            margin-top: 10px;
+        }
+        .search-container input {
+            padding: 10px;
+            width: 60%;
+            max-width: 300px;
+            border-radius: 5px 0 0 5px;
+            border: 1px solid #333;
+            background: #1a1a24;
+            color: #fff;
+            outline: none;
+        }
+        .search-container button {
+            padding: 10px 15px;
+            border-radius: 0 5px 5px 0;
+            border: 1px solid #00d2ff;
+            background: #00d2ff;
+            color: #000;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        nav {
+            background: #1a1a24;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav ul li a {
+            color: #00d2ff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        nav ul li a:hover {
+            background: #8a2be2;
+            color: #fff;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        section {
+            background: #161620;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #2a2a38;
+            min-height: 120px;
+        }
+        section h2 {
+            color: #8a2be2;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 10px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid #222;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
 
