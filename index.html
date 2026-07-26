@@ -5,96 +5,480 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jorge CyberSpace</title>
   <style>
-    /* Estilos generales */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #121212;
-      color: #ffffff;
-    }
-
-    /* Barra de navegación */
-    .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background-color: #1e1e1e;
-      padding: 12px 24px;
-      border-bottom: 1px solid #333;
-    }
-
-    /* Enlaces de navegación principales */
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      list-style: none;
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    .nav-links a {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 15px;
-      transition: color 0.2s ease;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: url('FONDO.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    .nav-links a:hover {
-      color: #00adb5;
-    }
-
-    /* Contenedor del buscador y lupa */
-    .search-container {
+    /* BARRA SUPERIOR */
+    header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      padding: 15px 30px;
+      width: 100%;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      color: #62f2db;
+      text-shadow: 0 0 8px rgba(98, 242, 219, 0.4);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .search-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .search-bar {
+      background: rgba(18, 18, 18, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      width: 280px;
+    }
+
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ccc;
+      width: 100%;
+      font-size: 13px;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .main-layout {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 50px;
+      padding: 20px 40px;
+      width: 100%;
+      flex: 1;
+      position: relative;
+    }
+
+    /* MENÚ LATERAL IZQUIERDO FIJO */
+    .sidebar {
+      position: absolute;
+      left: 40px;
+      top: 20px;
+      width: 150px;
+      background: rgba(15, 15, 15, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item {
+      padding: 8px 16px;
+      color: #dddddd;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+    }
+
+    .menu-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .menu-item.active {
+      background: rgba(38, 88, 82, 0.85);
+      color: #ffffff;
+      border-top: 1px solid rgba(98, 242, 219, 0.3);
+      border-bottom: 1px solid rgba(98, 242, 219, 0.3);
+    }
+
+    .menu-admin {
+      margin-top: 10px;
+      border-top: 1px dashed rgba(98, 242, 219, 0.3);
+      color: #62f2db;
+    }
+
+    /* CONTENIDO CENTRADO Y LARGO */
+    .content-area {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 0 auto;
+    }
+
+    .project-box {
+      background: rgba(18, 18, 18, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      min-height: 500px;
+    }
+
+    .box-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 8px;
+    }
+
+    .project-list {
+      display: flex;
+      flex-direction: column;
       gap: 10px;
     }
 
-    .search-input {
-      background-color: #2a2a2a;
-      border: 1px solid #444;
-      color: #fff;
-      padding: 8px 12px;
+    .item-card {
+      background: rgba(30, 30, 30, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 6px;
-      outline: none;
-      font-size: 14px;
-    }
-
-    .search-input:focus {
-      border-color: #00adb5;
-    }
-
-    .search-btn {
-      background: none;
-      border: none;
-      color: #fff;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       cursor: pointer;
-      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .item-card:hover {
+      background: rgba(45, 45, 45, 0.8);
+      border-color: rgba(98, 242, 219, 0.4);
+    }
+
+    .item-card.selected {
+      border: 1px solid #62f2db;
+      background: rgba(38, 88, 82, 0.4);
+      box-shadow: 0 0 10px rgba(98, 242, 219, 0.2);
+    }
+
+    .item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    /* CAJA DE DESCARGAS */
+    .download-box {
+      background: rgba(18, 18, 18, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .download-header {
+      font-size: 13px;
+      color: #ffffff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-download {
+      display: block;
+      width: 100%;
+      background: rgba(38, 88, 82, 0.9);
+      border: 1px solid #3d9286;
+      color: #ffffff;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover { background: #3d9286; }
+
+    .btn-download.disabled {
+      background: rgba(50, 50, 50, 0.5);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #888888;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* FORMULARIO DE MONTAJE */
+    .admin-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-form label {
+      font-size: 12px;
+      color: #62f2db;
+      font-weight: 600;
+    }
+
+    .admin-form input, .admin-form select {
+      background: rgba(30, 30, 30, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .btn-action {
+      background: rgba(38, 88, 82, 0.9);
+      border: 1px solid #3d9286;
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-action:hover { background: #3d9286; }
+
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 12px; }
+      .search-container { position: static; transform: none; }
+      .main-layout { flex-direction: column; align-items: center; padding: 20px 10px; }
+      .sidebar { position: static; width: 100%; max-width: 340px; }
+      .content-area { width: 100%; max-width: 340px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- BARRA DE NAVEGACIÓN -->
-  <header class="navbar">
-    <nav>
-      <ul class="nav-links">
-        <li><a href="#emuladores">Emuladores</a></li>
-        <li><a href="#consolas">Consolas</a></li>
-        <li><a href="#moviles">Móviles</a></li>
-        <li><a href="#juegos">Juegos</a></li>
-        <li><a href="#minecraft">Minecraft</a></li>
-        <li><a href="#extras">Extras</a></li>
-      </ul>
-    </nav>
-
-    <!-- Buscador a la derecha -->
+  <header>
+    <a href="#" class="logo">JORGE CYBERSPACE</a>
     <div class="search-container">
-      <input type="text" id="inputBuscar" class="search-input" placeholder="Buscar...">
-      <button id="btnLupa" class="search-btn">🔍</button>
+      <div class="search-bar">
+        <span>🔍 &nbsp;</span>
+        <input type="text" placeholder="Buscar...">
+      </div>
     </div>
   </header>
+
+  <div class="main-layout">
+
+    <nav class="sidebar">
+      <a class="menu-item active" onclick="seleccionarSeccion(this, 'Emuladores')">Emuladores</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Consolas')">Consolas</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Moviles')">Moviles</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Juegos')">Juegos</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Mix')">Mix</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Extra')">Extra</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Minecraft')">Minecraft</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Programas')">Programas</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Sistemas')">Sistemas</a>
+      <a class="menu-item menu-admin" onclick="mostrarFormularioAdmin(this)">➕ Añadir Juego</a>
+    </nav>
+
+    <main class="content-area">
+      
+      <div class="project-box">
+        <div class="box-header">
+          <span>☰</span>
+          <span id="titulo-seccion">Emuladores</span>
+        </div>
+
+        <div class="project-list" id="lista-proyectos"></div>
+
+        <div class="admin-form" id="panel-admin" style="display: none;">
+          <label>Sección / Categoría</label>
+          <select id="admin-categoria">
+            <option value="Emuladores">Emuladores</option>
+            <option value="Consolas">Consolas</option>
+            <option value="Moviles">Moviles</option>
+            <option value="Juegos">Juegos</option>
+            <option value="Mix">Mix</option>
+            <option value="Extra">Extra</option>
+            <option value="Minecraft">Minecraft</option>
+            <option value="Programas">Programas</option>
+            <option value="Sistemas">Sistemas</option>
+          </select>
+
+          <label>Nombre del Juego / Programa</label>
+          <input type="text" id="admin-nombre" placeholder="Ej: PPSSPP Portable">
+
+          <label>Enlace de Descarga</label>
+          <input type="text" id="admin-url" placeholder="https://www.mediafire.com/file/...">
+
+          <button class="btn-action" onclick="agregarJuegoDirecto()">🚀 Montar Juego</button>
+        </div>
+
+      </div>
+
+      <div class="download-box">
+        <div class="download-header">
+          <span>↓</span> Descargas
+        </div>
+        <a href="#" id="btn-descarga-principal" class="btn-download disabled" target="_blank">Selecciona un artículo</a>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script>
+    // URL DE TU BASE DE DATOS REALTIME
+    const URL_FIREBASE = "https://jorgecyberspace-5d45e-default-rtdb.firebaseio.com/juegos.json";
+
+    let datosContenido = {};
+    let seccionActual = 'Emuladores';
+
+    async function cargarBaseDatos() {
+      try {
+        const res = await fetch(URL_FIREBASE);
+        const data = await res.json();
+        
+        if (data) {
+          datosContenido = data;
+        } else {
+          // Si está vacía por primera vez, montamos PCSX2 Portable de una vez
+          datosContenido = {
+            'Emuladores': [{ nombre: 'PCSX2 Portable', url: 'https://www.mediafire.com/file/whqmv0xixjaas4o/PCSX2_Portable__Jorge-CyberSpace.7z/file' }]
+          };
+        }
+      } catch (e) {
+        console.error("Error al cargar Firebase:", e);
+      }
+      cargarContenido(seccionActual);
+    }
+
+    function seleccionarItem(cardElement, item) {
+      const cards = document.querySelectorAll('.item-card');
+      cards.forEach(c => c.classList.remove('selected'));
+
+      cardElement.classList.add('selected');
+
+      const btnDescarga = document.getElementById('btn-descarga-principal');
+      btnDescarga.textContent = 'Descargar ' + item.nombre;
+      btnDescarga.href = item.url;
+      btnDescarga.classList.remove('disabled');
+    }
+
+    function cargarContenido(nombreSeccion) {
+      document.getElementById('lista-proyectos').style.display = 'flex';
+      document.getElementById('panel-admin').style.display = 'none';
+
+      const lista = document.getElementById('lista-proyectos');
+      const btnDescarga = document.getElementById('btn-descarga-principal');
+      lista.innerHTML = '';
+
+      btnDescarga.textContent = 'Selecciona un artículo';
+      btnDescarga.href = '#';
+      btnDescarga.classList.add('disabled');
+
+      const items = datosContenido[nombreSeccion] || [];
+
+      if (items.length > 0) {
+        items.forEach((item) => {
+          const card = document.createElement('div');
+          card.className = 'item-card';
+          card.innerHTML = `<span class="item-title">${item.nombre}</span>`;
+          card.onclick = () => seleccionarItem(card, item);
+          lista.appendChild(card);
+        });
+      } else {
+        lista.innerHTML = '<p style="font-size:12px; color:#aaa; text-align:center; padding-top:20px;">Sin contenido en esta sección.</p>';
+      }
+    }
+
+    function seleccionarSeccion(elemento, nombreSeccion) {
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(item => item.classList.remove('active'));
+      
+      elemento.classList.add('active');
+      seccionActual = nombreSeccion;
+      document.getElementById('titulo-seccion').textContent = nombreSeccion;
+
+      cargarContenido(nombreSeccion);
+    }
+
+    function mostrarFormularioAdmin(elemento) {
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(item => item.classList.remove('active'));
+      elemento.classList.add('active');
+
+      document.getElementById('titulo-seccion').textContent = 'Panel de Montaje';
+      document.getElementById('lista-proyectos').style.display = 'none';
+      document.getElementById('panel-admin').style.display = 'flex';
+    }
+
+    async function agregarJuegoDirecto() {
+      const categoria = document.getElementById('admin-categoria').value;
+      const nombre = document.getElementById('admin-nombre').value.trim();
+      const url = document.getElementById('admin-url').value.trim();
+
+      if (!nombre || !url) {
+        alert('Pon el nombre y el enlace.');
+        return;
+      }
+
+      if (!datosContenido[categoria]) {
+        datosContenido[categoria] = [];
+      }
+
+      datosContenido[categoria].push({ nombre: nombre, url: url });
+
+      try {
+        // Enviar a la nube (Firebase)
+        await fetch(URL_FIREBASE, {
+          method: 'PUT',
+          body: JSON.stringify(datosContenido)
+        });
+
+        document.getElementById('admin-nombre').value = '';
+        document.getElementById('admin-url').value = '';
+
+        alert('¡Montado en la nube! Ya le sale a todo el mundo que visite la página.');
+
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+          if (item.textContent.trim() === categoria) {
+            seleccionarSeccion(item, categoria);
+          }
+        });
+
+      } catch (e) {
+        alert('Hubo un error al guardar en la nube.');
+      }
+    }
+
+    cargarBaseDatos();
+  </script>
 
 </body>
 </html>
