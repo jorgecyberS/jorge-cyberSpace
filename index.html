@@ -62,7 +62,7 @@
       background: transparent;
       border: none;
       outline: none;
-      color: #ccc;
+      color: #ffffff;
       width: 100%;
       font-size: 13px;
     }
@@ -141,7 +141,9 @@
       border-radius: 10px;
       padding: 14px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      min-height: 500px;
+      height: 420px;
+      display: flex;
+      flex-direction: column;
     }
 
     .box-header {
@@ -154,12 +156,29 @@
       margin-bottom: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding-bottom: 8px;
+      flex-shrink: 0;
     }
 
+    /* LISTA CON RUEDITA DEL RATÓN (SCROLL) */
     .project-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 4px;
+    }
+
+    /* Personalización suave de la barra de scroll */
+    .project-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .project-list::-webkit-scrollbar-thumb {
+      background: rgba(98, 242, 219, 0.3);
+      border-radius: 4px;
+    }
+    .project-list::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
     }
 
     .item-card {
@@ -172,6 +191,7 @@
       align-items: center;
       cursor: pointer;
       transition: all 0.2s ease;
+      flex-shrink: 0;
     }
 
     .item-card:hover {
@@ -191,7 +211,7 @@
       color: #ffffff;
     }
 
-    /* CAJA DE DESCARGAS */
+    /* CAJA DE DESCARGAS FIJA */
     .download-box {
       background: rgba(18, 18, 18, 0.88);
       border: 1px solid rgba(255, 255, 255, 0.15);
@@ -199,6 +219,7 @@
       padding: 12px;
       text-align: center;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      flex-shrink: 0;
     }
 
     .download-header {
@@ -237,11 +258,12 @@
       pointer-events: none;
     }
 
-    /* FORMULARIO DE MONTAJE Y ELIMINACIÓN */
+    /* FORMULARIOS DE ADMINISTRACIÓN */
     .admin-form {
       display: flex;
       flex-direction: column;
       gap: 12px;
+      overflow-y: auto;
     }
 
     .admin-form label {
@@ -297,7 +319,7 @@
     <div class="search-container">
       <div class="search-bar">
         <span>🔍 &nbsp;</span>
-        <input type="text" id="input-busqueda" placeholder="Buscar...">
+        <input type="text" id="input-busqueda" placeholder="Buscar juego..." oninput="filtrarJuegos()">
       </div>
     </div>
   </header>
@@ -396,7 +418,7 @@
     let datosContenido = {};
     let seccionActual = 'Emuladores';
 
-    // --- CLAVE SECRETA EN EL AIRE: 34814733 ---
+    // --- CLAVE SECRETA: 34814733 ---
     const CLAVE_SECRETA = "34814733";
     let teclasEscritas = "";
 
@@ -452,7 +474,7 @@
       btnDescarga.classList.remove('disabled');
     }
 
-    function cargarContenido(nombreSeccion) {
+    function cargarContenido(nombreSeccion, filtro = '') {
       document.getElementById('lista-proyectos').style.display = 'flex';
       document.getElementById('panel-admin-add').style.display = 'none';
       document.getElementById('panel-admin-del').style.display = 'none';
@@ -467,22 +489,32 @@
 
       const items = datosContenido[nombreSeccion] || [];
 
-      if (items.length > 0) {
-        items.forEach((item) => {
-          if (item && item.nombre && item.url) {
-            const card = document.createElement('div');
-            card.className = 'item-card';
-            card.innerHTML = `<span class="item-title">${item.nombre}</span>`;
-            card.onclick = () => seleccionarItem(card, item);
-            lista.appendChild(card);
-          }
+      // Filtro de la lupita de búsqueda
+      const itemsFiltrados = items.filter(item => {
+        if (!item || !item.nombre) return false;
+        return item.nombre.toLowerCase().includes(filtro.toLowerCase());
+      });
+
+      if (itemsFiltrados.length > 0) {
+        itemsFiltrados.forEach((item) => {
+          const card = document.createElement('div');
+          card.className = 'item-card';
+          card.innerHTML = `<span class="item-title">${item.nombre}</span>`;
+          card.onclick = () => seleccionarItem(card, item);
+          lista.appendChild(card);
         });
       } else {
-        lista.innerHTML = '<p style="font-size:12px; color:#aaa; text-align:center; padding-top:20px;">Sin contenido en esta sección.</p>';
+        lista.innerHTML = '<p style="font-size:12px; color:#aaa; text-align:center; padding-top:20px;">No se encontraron juegos.</p>';
       }
     }
 
+    function filtrarJuegos() {
+      const texto = document.getElementById('input-busqueda').value;
+      cargarContenido(seccionActual, texto);
+    }
+
     function seleccionarSeccion(elemento, nombreSeccion) {
+      document.getElementById('input-busqueda').value = '';
       const items = document.querySelectorAll('.menu-item');
       items.forEach(item => item.classList.remove('active'));
       
@@ -561,8 +593,6 @@
           document.getElementById('admin-url').value = '';
 
           alert('¡Montado en la nube con éxito!');
-
-          // Cargar inmediatamente la base de datos actualizada
           await cargarBaseDatos();
 
           const menuItems = document.querySelectorAll('.menu-item');
@@ -620,7 +650,7 @@
       }
     }
 
-    // Inicialización de la base de datos
+    // Inicialización de la base de datos al abrir
     cargarBaseDatos();
   </script>
 
