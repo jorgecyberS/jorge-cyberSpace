@@ -116,13 +116,17 @@
     }
 
     .menu-admin {
-      margin-top: 10px;
+      margin-top: 5px;
       border-top: 1px dashed rgba(98, 242, 219, 0.3);
       color: #62f2db;
-      display: none; /* Oculto para los demás */
+      display: none; /* Oculto por defecto */
     }
 
-    /* CONTENIDO CENTRADO Y LARGO */
+    .menu-admin-delete {
+      color: #ff6b6b;
+    }
+
+    /* CONTENIDO CENTRADO */
     .content-area {
       width: 340px;
       display: flex;
@@ -233,7 +237,7 @@
       pointer-events: none;
     }
 
-    /* FORMULARIO DE MONTAJE */
+    /* FORMULARIO DE MONTAJE Y ELIMINACIÓN */
     .admin-form {
       display: flex;
       flex-direction: column;
@@ -270,6 +274,13 @@
 
     .btn-action:hover { background: #3d9286; }
 
+    .btn-delete-action {
+      background: rgba(180, 40, 40, 0.85);
+      border: 1px solid #ff4d4d;
+    }
+
+    .btn-delete-action:hover { background: #d93838; }
+
     @media (max-width: 768px) {
       header { flex-direction: column; gap: 12px; }
       .search-container { position: static; transform: none; }
@@ -304,8 +315,9 @@
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Programas')">Programas</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Sistemas')">Sistemas</a>
       
-      <!-- Panel invisible para los demás -->
-      <a id="btn-admin-menu" class="menu-item menu-admin" onclick="mostrarFormularioAdmin(this)">➕ Añadir Juego</a>
+      <!-- Panel de administración (Ocultos por defecto) -->
+      <a id="btn-admin-add" class="menu-item menu-admin" onclick="mostrarFormularioAdd(this)">➕ Añadir Juego</a>
+      <a id="btn-admin-del" class="menu-item menu-admin menu-admin-delete" onclick="mostrarFormularioDel(this)">🗑️ Eliminar Juego</a>
     </nav>
 
     <main class="content-area">
@@ -318,7 +330,8 @@
 
         <div class="project-list" id="lista-proyectos"></div>
 
-        <div class="admin-form" id="panel-admin" style="display: none;">
+        <!-- FORMULARIO DE MONTAJE -->
+        <div class="admin-form" id="panel-admin-add" style="display: none;">
           <label>Sección / Categoría</label>
           <select id="admin-categoria">
             <option value="Emuladores">Emuladores</option>
@@ -339,6 +352,29 @@
           <input type="text" id="admin-url" placeholder="https://www.mediafire.com/file/...">
 
           <button class="btn-action" onclick="agregarJuegoDirecto()">🚀 Montar Juego</button>
+        </div>
+
+        <!-- FORMULARIO DE ELIMINACIÓN -->
+        <div class="admin-form" id="panel-admin-del" style="display: none;">
+          <label>Selecciona la Categoría</label>
+          <select id="del-categoria" onchange="actualizarListaEliminar()">
+            <option value="Emuladores">Emuladores</option>
+            <option value="Consolas">Consolas</option>
+            <option value="Moviles">Moviles</option>
+            <option value="Juegos PC">Juegos PC</option>
+            <option value="Mix">Mix</option>
+            <option value="Extra">Extra</option>
+            <option value="Minecraft PC">Minecraft PC</option>
+            <option value="Programas">Programas</option>
+            <option value="Sistemas">Sistemas</option>
+          </select>
+
+          <label>Selecciona el Juego a Borrar</label>
+          <select id="del-juego-index">
+            <option value="">-- Selecciona un juego --</option>
+          </select>
+
+          <button class="btn-action btn-delete-action" onclick="eliminarJuegoDirecto()">🔥 Eliminar Definitivamente</button>
         </div>
 
       </div>
@@ -380,9 +416,11 @@
     });
 
     function abrirPanelDirecto() {
-      const btnAdmin = document.getElementById('btn-admin-menu');
-      btnAdmin.style.display = 'block';
-      mostrarFormularioAdmin(btnAdmin);
+      const btnAdd = document.getElementById('btn-admin-add');
+      const btnDel = document.getElementById('btn-admin-del');
+      btnAdd.style.display = 'block';
+      btnDel.style.display = 'block';
+      mostrarFormularioAdd(btnAdd);
     }
 
     async function cargarBaseDatos() {
@@ -417,7 +455,8 @@
 
     function cargarContenido(nombreSeccion) {
       document.getElementById('lista-proyectos').style.display = 'flex';
-      document.getElementById('panel-admin').style.display = 'none';
+      document.getElementById('panel-admin-add').style.display = 'none';
+      document.getElementById('panel-admin-del').style.display = 'none';
 
       const lista = document.getElementById('lista-proyectos');
       const btnDescarga = document.getElementById('btn-descarga-principal');
@@ -453,14 +492,42 @@
       cargarContenido(nombreSeccion);
     }
 
-    function mostrarFormularioAdmin(elemento) {
+    function mostrarFormularioAdd(elemento) {
       const items = document.querySelectorAll('.menu-item');
       items.forEach(item => item.classList.remove('active'));
       elemento.classList.add('active');
 
       document.getElementById('titulo-seccion').textContent = 'Panel de Montaje';
       document.getElementById('lista-proyectos').style.display = 'none';
-      document.getElementById('panel-admin').style.display = 'flex';
+      document.getElementById('panel-admin-del').style.display = 'none';
+      document.getElementById('panel-admin-add').style.display = 'flex';
+    }
+
+    function mostrarFormularioDel(elemento) {
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(item => item.classList.remove('active'));
+      elemento.classList.add('active');
+
+      document.getElementById('titulo-seccion').textContent = 'Eliminar Contenido';
+      document.getElementById('lista-proyectos').style.display = 'none';
+      document.getElementById('panel-admin-add').style.display = 'none';
+      document.getElementById('panel-admin-del').style.display = 'flex';
+      
+      actualizarListaEliminar();
+    }
+
+    function actualizarListaEliminar() {
+      const cat = document.getElementById('del-categoria').value;
+      const selectJuegos = document.getElementById('del-juego-index');
+      selectJuegos.innerHTML = '<option value="">-- Selecciona un juego --</option>';
+
+      const juegos = datosContenido[cat] || [];
+      juegos.forEach((juego, index) => {
+        const opt = document.createElement('option');
+        opt.value = index;
+        opt.textContent = juego.nombre;
+        selectJuegos.appendChild(opt);
+      });
     }
 
     async function agregarJuegoDirecto() {
@@ -499,6 +566,40 @@
 
       } catch (e) {
         alert('Hubo un error al guardar en la nube.');
+      }
+    }
+
+    async function eliminarJuegoDirecto() {
+      const cat = document.getElementById('del-categoria').value;
+      const index = document.getElementById('del-juego-index').value;
+
+      if (index === "") {
+        alert('Selecciona un juego para borrar.');
+        return;
+      }
+
+      const confirmacion = confirm(`¿Estás seguro de borrar "${datosContenido[cat][index].nombre}"?`);
+      if (!confirmacion) return;
+
+      datosContenido[cat].splice(index, 1);
+
+      try {
+        await fetch(URL_FIREBASE, {
+          method: 'PUT',
+          body: JSON.stringify(datosContenido)
+        });
+
+        alert('¡Juego eliminado con éxito!');
+
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+          if (item.textContent.trim() === cat) {
+            seleccionarSeccion(item, cat);
+          }
+        });
+
+      } catch (e) {
+        alert('Error al eliminar en la nube.');
       }
     }
 
