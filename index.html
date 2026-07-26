@@ -1,176 +1,660 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jorge CyberSpace - Juegos PC, Emuladores y Más</title>
-    
-    <!-- Verificación de Google Search Console -->
-    <meta name="google-site-verification" content="Tcy9hVZrqCfzJnk_oImJ4oTlncO6nLB-IUQUQGjr79Y" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jorge CyberSpace</title>
+  <meta name="google-site-verification" content="Tcy9hVZrqCfzJnk_oImJ4oTlncO6nLB-IUQUQGjr79Y" />
+  <style>
+ 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <style>
-        /* Estilos base para evitar la pantalla blanca */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #0f0f14;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 2px solid #8a2be2;
-            margin-bottom: 20px;
-        }
-        header h1 {
-            color: #00d2ff;
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
-        }
-        header p {
-            color: #aaa;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-        .search-container {
-            margin-top: 10px;
-        }
-        .search-container input {
-            padding: 10px;
-            width: 60%;
-            max-width: 300px;
-            border-radius: 5px 0 0 5px;
-            border: 1px solid #333;
-            background: #1a1a24;
-            color: #fff;
-            outline: none;
-        }
-        .search-container button {
-            padding: 10px 15px;
-            border-radius: 0 5px 5px 0;
-            border: 1px solid #00d2ff;
-            background: #00d2ff;
-            color: #000;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        nav {
-            background: #1a1a24;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        nav ul li a {
-            color: #00d2ff;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-        nav ul li a:hover {
-            background: #8a2be2;
-            color: #fff;
-        }
-        main {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        section {
-            background: #161620;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #2a2a38;
-            min-height: 120px;
-        }
-        section h2 {
-            color: #8a2be2;
-            border-bottom: 1px solid #333;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            padding: 10px 0;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            border-top: 1px solid #222;
-            color: #777;
-        }
-    </style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: url('FONDO.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* BARRA SUPERIOR */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 30px;
+      width: 100%;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      color: #62f2db;
+      text-shadow: 0 0 8px rgba(98, 242, 219, 0.4);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .search-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .search-bar {
+      background: rgba(18, 18, 18, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      width: 280px;
+    }
+
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      width: 100%;
+      font-size: 13px;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .main-layout {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 50px;
+      padding: 20px 40px;
+      width: 100%;
+      flex: 1;
+      position: relative;
+    }
+
+    /* MENÚ LATERAL IZQUIERDO FIJO */
+    .sidebar {
+      position: absolute;
+      left: 40px;
+      top: 20px;
+      width: 150px;
+      background: rgba(15, 15, 15, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item {
+      padding: 8px 16px;
+      color: #dddddd;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+    }
+
+    .menu-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .menu-item.active {
+      background: rgba(38, 88, 82, 0.85);
+      color: #ffffff;
+      border-top: 1px solid rgba(98, 242, 219, 0.3);
+      border-bottom: 1px solid rgba(98, 242, 219, 0.3);
+    }
+
+    .menu-admin {
+      margin-top: 5px;
+      border-top: 1px dashed rgba(98, 242, 219, 0.3);
+      color: #62f2db;
+      display: none;
+    }
+
+    .menu-admin-delete {
+      color: #ff6b6b;
+    }
+
+    /* CONTENIDO CENTRADO */
+    .content-area {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 0 auto;
+    }
+
+    .project-box {
+      background: rgba(18, 18, 18, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .box-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    /* LISTA CON RUEDITA DEL RATÓN (SCROLL) */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 4px;
+    }
+
+    /* Personalización suave de la barra de scroll */
+    .project-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .project-list::-webkit-scrollbar-thumb {
+      background: rgba(98, 242, 219, 0.3);
+      border-radius: 4px;
+    }
+    .project-list::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .item-card {
+      background: rgba(30, 30, 30, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .item-card:hover {
+      background: rgba(45, 45, 45, 0.8);
+      border-color: rgba(98, 242, 219, 0.4);
+    }
+
+    .item-card.selected {
+      border: 1px solid #62f2db;
+      background: rgba(38, 88, 82, 0.4);
+      box-shadow: 0 0 10px rgba(98, 242, 219, 0.2);
+    }
+
+    .item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    /* CAJA DE DESCARGAS FIJA */
+    .download-box {
+      background: rgba(18, 18, 18, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      flex-shrink: 0;
+    }
+
+    .download-header {
+      font-size: 13px;
+      color: #ffffff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-download {
+      display: block;
+      width: 100%;
+      background: rgba(38, 88, 82, 0.9);
+      border: 1px solid #3d9286;
+      color: #ffffff;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover { background: #3d9286; }
+
+    .btn-download.disabled {
+      background: rgba(50, 50, 50, 0.5);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #888888;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* FORMULARIOS DE ADMINISTRACIÓN */
+    .admin-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+
+    .admin-form label {
+      font-size: 12px;
+      color: #62f2db;
+      font-weight: 600;
+    }
+
+    .admin-form input, .admin-form select {
+      background: rgba(30, 30, 30, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .btn-action {
+      background: rgba(38, 88, 82, 0.9);
+      border: 1px solid #3d9286;
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-action:hover { background: #3d9286; }
+
+    .btn-delete-action {
+      background: rgba(180, 40, 40, 0.85);
+      border: 1px solid #ff4d4d;
+    }
+
+    .btn-delete-action:hover { background: #d93838; }
+
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 12px; }
+      .search-container { position: static; transform: none; }
+      .main-layout { flex-direction: column; align-items: center; padding: 20px 10px; }
+      .sidebar { position: static; width: 100%; max-width: 340px; }
+      .content-area { width: 100%; max-width: 340px; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Jorge CyberSpace</h1>
-        <p>Tu portal de juegos de PC, emuladores y software</p>
-        
-        <!-- Búsqueda -->
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Buscar juegos, emuladores...">
-            <button id="searchBtn">🔍</button>
-        </div>
-    </header>
+  <header>
+    <a href="#" class="logo">JORGE CYBERSPACE</a>
+    <div class="search-container">
+      <div class="search-bar">
+        <span>🔍 &nbsp;</span>
+        <input type="text" id="input-busqueda" placeholder="Buscar juego..." oninput="filtrarJuegos()">
+      </div>
+    </div>
+  </header>
 
-    <nav>
-        <ul>
-            <li><a href="#emuladores">Emuladores</a></li>
-            <li><a href="#juegos-pc">Juegos PC</a></li>
-            <li><a href="#minecraft">Minecraft PC</a></li>
-        </ul>
+  <div class="main-layout">
+
+    <nav class="sidebar">
+      <a class="menu-item active" onclick="seleccionarSeccion(this, 'Emuladores')">Emuladores</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Consolas')">Consolas</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Moviles')">Moviles</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Juegos PC')">Juegos PC</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Mix')">Mix</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Extra')">Extra</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Minecraft PC')">Minecraft PC</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Programas')">Programas</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Sistemas')">Sistemas</a>
+      
+      <!-- Panel de administración -->
+      <a id="btn-admin-add" class="menu-item menu-admin" onclick="mostrarFormularioAdd(this)">➕ Añadir Juego</a>
+      <a id="btn-admin-del" class="menu-item menu-admin menu-admin-delete" onclick="mostrarFormularioDel(this)">🗑️ Eliminar Juego</a>
     </nav>
 
-    <main>
-        <!-- Sección Emuladores -->
-        <section id="emuladores">
-            <h2>Emuladores</h2>
-            <div class="games-grid">
-                <!-- Aquí van tus tarjetas de emuladores -->
-            </div>
-        </section>
+    <main class="content-area">
+      
+      <div class="project-box">
+        <div class="box-header">
+          <span>☰</span>
+          <span id="titulo-seccion">Emuladores</span>
+        </div>
 
-        <!-- Sección Juegos PC -->
-        <section id="juegos-pc">
-            <h2>Juegos PC</h2>
-            <div class="games-grid">
-                <!-- Aquí van tus tarjetas de juegos de PC -->
-            </div>
-        </section>
+        <div class="project-list" id="lista-proyectos"></div>
 
-        <!-- Sección Minecraft PC -->
-        <section id="minecraft">
-            <h2>Minecraft PC</h2>
-            <div class="games-grid">
-                <!-- Aquí van los archivos de Minecraft -->
-            </div>
-        </section>
+        <!-- FORMULARIO DE MONTAJE -->
+        <div class="admin-form" id="panel-admin-add" style="display: none;">
+          <label>Sección / Categoría</label>
+          <select id="admin-categoria">
+            <option value="Emuladores">Emuladores</option>
+            <option value="Consolas">Consolas</option>
+            <option value="Moviles">Moviles</option>
+            <option value="Juegos PC">Juegos PC</option>
+            <option value="Mix">Mix</option>
+            <option value="Extra">Extra</option>
+            <option value="Minecraft PC">Minecraft PC</option>
+            <option value="Programas">Programas</option>
+            <option value="Sistemas">Sistemas</option>
+          </select>
+
+          <label>Nombre del Juego / Programa</label>
+          <input type="text" id="admin-nombre" placeholder="Ej: Resident Evil 4">
+
+          <label>Enlace de Descarga</label>
+          <input type="text" id="admin-url" placeholder="https://www.mediafire.com/file/...">
+
+          <button class="btn-action" onclick="agregarJuegoDirecto()">🚀 Montar Juego</button>
+        </div>
+
+        <!-- FORMULARIO DE ELIMINACIÓN -->
+        <div class="admin-form" id="panel-admin-del" style="display: none;">
+          <label>Selecciona la Categoría</label>
+          <select id="del-categoria" onchange="actualizarListaEliminar()">
+            <option value="Emuladores">Emuladores</option>
+            <option value="Consolas">Consolas</option>
+            <option value="Moviles">Moviles</option>
+            <option value="Juegos PC">Juegos PC</option>
+            <option value="Mix">Mix</option>
+            <option value="Extra">Extra</option>
+            <option value="Minecraft PC">Minecraft PC</option>
+            <option value="Programas">Programas</option>
+            <option value="Sistemas">Sistemas</option>
+          </select>
+
+          <label>Selecciona el Juego a Borrar</label>
+          <select id="del-juego-index">
+            <option value="">-- Selecciona un juego --</option>
+          </select>
+
+          <button class="btn-action btn-delete-action" onclick="eliminarJuegoDirecto()">🔥 Eliminar Definitivamente</button>
+        </div>
+
+      </div>
+
+      <div class="download-box">
+        <div class="download-header">
+          <span>↓</span> Descargas
+        </div>
+        <a href="#" id="btn-descarga-principal" class="btn-download disabled" target="_blank">Selecciona un artículo</a>
+      </div>
+
     </main>
 
-    <footer>
-        <p>&copy; 2026 Jorge CyberSpace - Todos los derechos reservados.</p>
-    </footer>
+  </div>
 
-    <!-- Firebase y scripts JS -->
-    <script src="script.js"></script>
+  <script>
+    const URL_FIREBASE = "https://jorgecyberspace-5d45e-default-rtdb.firebaseio.com/juegos.json";
+
+    let datosContenido = {};
+    let seccionActual = 'Emuladores';
+
+    // --- CLAVE SECRETA: 34814733 ---
+    const CLAVE_SECRETA = "34814733";
+    let teclasEscritas = "";
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+      teclasEscritas += e.key;
+
+      if (teclasEscritas.length > CLAVE_SECRETA.length) {
+        teclasEscritas = teclasEscritas.substring(teclasEscritas.length - CLAVE_SECRETA.length);
+      }
+
+      if (teclasEscritas === CLAVE_SECRETA) {
+        teclasEscritas = "";
+        abrirPanelDirecto();
+      }
+    });
+
+    function abrirPanelDirecto() {
+      const btnAdd = document.getElementById('btn-admin-add');
+      const btnDel = document.getElementById('btn-admin-del');
+      btnAdd.style.display = 'block';
+      btnDel.style.display = 'block';
+      mostrarFormularioAdd(btnAdd);
+    }
+
+    async function cargarBaseDatos() {
+      try {
+        const res = await fetch(URL_FIREBASE);
+        const data = await res.json();
+        
+        if (data && typeof data === 'object') {
+          datosContenido = data;
+        } else {
+          datosContenido = {};
+        }
+      } catch (e) {
+        console.error("Error al cargar Firebase:", e);
+        datosContenido = {};
+      }
+      cargarContenido(seccionActual);
+    }
+
+    function seleccionarItem(cardElement, item) {
+      const cards = document.querySelectorAll('.item-card');
+      cards.forEach(c => c.classList.remove('selected'));
+
+      cardElement.classList.add('selected');
+
+      const btnDescarga = document.getElementById('btn-descarga-principal');
+      btnDescarga.textContent = 'Descargar ' + item.nombre;
+      btnDescarga.href = item.url;
+      btnDescarga.classList.remove('disabled');
+    }
+
+    function cargarContenido(nombreSeccion, filtro = '') {
+      document.getElementById('lista-proyectos').style.display = 'flex';
+      document.getElementById('panel-admin-add').style.display = 'none';
+      document.getElementById('panel-admin-del').style.display = 'none';
+
+      const lista = document.getElementById('lista-proyectos');
+      const btnDescarga = document.getElementById('btn-descarga-principal');
+      lista.innerHTML = '';
+
+      btnDescarga.textContent = 'Selecciona un artículo';
+      btnDescarga.href = '#';
+      btnDescarga.classList.add('disabled');
+
+      const items = datosContenido[nombreSeccion] || [];
+
+      // Filtro de la lupita de búsqueda
+      const itemsFiltrados = items.filter(item => {
+        if (!item || !item.nombre) return false;
+        return item.nombre.toLowerCase().includes(filtro.toLowerCase());
+      });
+
+      if (itemsFiltrados.length > 0) {
+        itemsFiltrados.forEach((item) => {
+          const card = document.createElement('div');
+          card.className = 'item-card';
+          card.innerHTML = `<span class="item-title">${item.nombre}</span>`;
+          card.onclick = () => seleccionarItem(card, item);
+          lista.appendChild(card);
+        });
+      } else {
+        lista.innerHTML = '<p style="font-size:12px; color:#aaa; text-align:center; padding-top:20px;">No se encontraron juegos.</p>';
+      }
+    }
+
+    function filtrarJuegos() {
+      const texto = document.getElementById('input-busqueda').value;
+      cargarContenido(seccionActual, texto);
+    }
+
+    function seleccionarSeccion(elemento, nombreSeccion) {
+      document.getElementById('input-busqueda').value = '';
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(item => item.classList.remove('active'));
+      
+      elemento.classList.add('active');
+      seccionActual = nombreSeccion;
+      document.getElementById('titulo-seccion').textContent = nombreSeccion;
+
+      cargarContenido(nombreSeccion);
+    }
+
+    function mostrarFormularioAdd(elemento) {
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(item => item.classList.remove('active'));
+      elemento.classList.add('active');
+
+      document.getElementById('titulo-seccion').textContent = 'Panel de Montaje';
+      document.getElementById('lista-proyectos').style.display = 'none';
+      document.getElementById('panel-admin-del').style.display = 'none';
+      document.getElementById('panel-admin-add').style.display = 'flex';
+    }
+
+    function mostrarFormularioDel(elemento) {
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(item => item.classList.remove('active'));
+      elemento.classList.add('active');
+
+      document.getElementById('titulo-seccion').textContent = 'Eliminar Contenido';
+      document.getElementById('lista-proyectos').style.display = 'none';
+      document.getElementById('panel-admin-add').style.display = 'none';
+      document.getElementById('panel-admin-del').style.display = 'flex';
+      
+      actualizarListaEliminar();
+    }
+
+    function actualizarListaEliminar() {
+      const cat = document.getElementById('del-categoria').value;
+      const selectJuegos = document.getElementById('del-juego-index');
+      selectJuegos.innerHTML = '<option value="">-- Selecciona un juego --</option>';
+
+      const juegos = datosContenido[cat] || [];
+      juegos.forEach((juego, index) => {
+        if (juego && juego.nombre) {
+          const opt = document.createElement('option');
+          opt.value = index;
+          opt.textContent = juego.nombre;
+          selectJuegos.appendChild(opt);
+        }
+      });
+    }
+
+    async function agregarJuegoDirecto() {
+      const categoria = document.getElementById('admin-categoria').value;
+      const nombre = document.getElementById('admin-nombre').value.trim();
+      const url = document.getElementById('admin-url').value.trim();
+
+      if (!nombre || !url) {
+        alert('Pon el nombre y el enlace.');
+        return;
+      }
+
+      if (!datosContenido[categoria]) {
+        datosContenido[categoria] = [];
+      }
+
+      datosContenido[categoria].push({ nombre: nombre, url: url });
+
+      try {
+        const res = await fetch(URL_FIREBASE, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datosContenido)
+        });
+
+        if (res.ok) {
+          document.getElementById('admin-nombre').value = '';
+          document.getElementById('admin-url').value = '';
+
+          alert('¡Montado en la nube con éxito!');
+          await cargarBaseDatos();
+
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+            if (item.textContent.trim() === categoria) {
+              seleccionarSeccion(item, categoria);
+            }
+          });
+        } else {
+          alert('Firebase no aceptó la petición. Revisa las reglas de escritura.');
+        }
+
+      } catch (e) {
+        alert('Hubo un error de conexión al guardar.');
+      }
+    }
+
+    async function eliminarJuegoDirecto() {
+      const cat = document.getElementById('del-categoria').value;
+      const index = document.getElementById('del-juego-index').value;
+
+      if (index === "") {
+        alert('Selecciona un juego para borrar.');
+        return;
+      }
+
+      const confirmacion = confirm(`¿Estás seguro de borrar "${datosContenido[cat][index].nombre}"?`);
+      if (!confirmacion) return;
+
+      datosContenido[cat].splice(index, 1);
+
+      try {
+        const res = await fetch(URL_FIREBASE, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datosContenido)
+        });
+
+        if (res.ok) {
+          alert('¡Juego eliminado con éxito!');
+          await cargarBaseDatos();
+
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+            if (item.textContent.trim() === cat) {
+              seleccionarSeccion(item, cat);
+            }
+          });
+        } else {
+          alert('Error al actualizar en la nube.');
+        }
+
+      } catch (e) {
+        alert('Error al eliminar en la nube.');
+      }
+    }
+
+    // Inicialización de la base de datos al abrir
+    cargarBaseDatos();
+  </script>
+
 </body>
 </html>
