@@ -119,7 +119,7 @@
       margin-top: 10px;
       border-top: 1px dashed rgba(98, 242, 219, 0.3);
       color: #62f2db;
-      display: none; /* Totalmente oculto para los demás */
+      display: none; /* Oculto para los demás */
     }
 
     /* CONTENIDO CENTRADO Y LARGO */
@@ -297,10 +297,10 @@
       <a class="menu-item active" onclick="seleccionarSeccion(this, 'Emuladores')">Emuladores</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Consolas')">Consolas</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Moviles')">Moviles</a>
-      <a class="menu-item" onclick="seleccionarSeccion(this, 'Juegos')">Juegos</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Juegos PC')">Juegos PC</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Mix')">Mix</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Extra')">Extra</a>
-      <a class="menu-item" onclick="seleccionarSeccion(this, 'Minecraft')">Minecraft</a>
+      <a class="menu-item" onclick="seleccionarSeccion(this, 'Minecraft PC')">Minecraft PC</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Programas')">Programas</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Sistemas')">Sistemas</a>
       
@@ -324,16 +324,16 @@
             <option value="Emuladores">Emuladores</option>
             <option value="Consolas">Consolas</option>
             <option value="Moviles">Moviles</option>
-            <option value="Juegos">Juegos</option>
+            <option value="Juegos PC">Juegos PC</option>
             <option value="Mix">Mix</option>
             <option value="Extra">Extra</option>
-            <option value="Minecraft">Minecraft</option>
+            <option value="Minecraft PC">Minecraft PC</option>
             <option value="Programas">Programas</option>
             <option value="Sistemas">Sistemas</option>
           </select>
 
           <label>Nombre del Juego / Programa</label>
-          <input type="text" id="admin-nombre" placeholder="Ej: PPSSPP Portable">
+          <input type="text" id="admin-nombre" placeholder="Ej: Resident Evil 4">
 
           <label>Enlace de Descarga</label>
           <input type="text" id="admin-url" placeholder="https://www.mediafire.com/file/...">
@@ -365,26 +365,23 @@
     let teclasEscritas = "";
 
     document.addEventListener('keydown', (e) => {
-      // Ignorar si estás escribiendo dentro de la barra de búsqueda o en el panel
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
 
       teclasEscritas += e.key;
 
-      // Guardar solo los últimos dígitos igual a la longitud de la clave
       if (teclasEscritas.length > CLAVE_SECRETA.length) {
         teclasEscritas = teclasEscritas.substring(teclasEscritas.length - CLAVE_SECRETA.length);
       }
 
-      // Si coincide la clave escrita en el aire
       if (teclasEscritas === CLAVE_SECRETA) {
-        teclasEscritas = ""; // reiniciar
+        teclasEscritas = "";
         abrirPanelDirecto();
       }
     });
 
     function abrirPanelDirecto() {
       const btnAdmin = document.getElementById('btn-admin-menu');
-      btnAdmin.style.display = 'block'; // Muestra el botón en el menú
+      btnAdmin.style.display = 'block';
       mostrarFormularioAdmin(btnAdmin);
     }
 
