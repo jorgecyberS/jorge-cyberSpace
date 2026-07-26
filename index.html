@@ -40,6 +40,8 @@
       text-shadow: 0 0 8px rgba(98, 242, 219, 0.4);
       text-decoration: none;
       letter-spacing: -0.5px;
+      cursor: pointer;
+      user-select: none;
     }
 
     .search-container {
@@ -113,12 +115,6 @@
       color: #ffffff;
       border-top: 1px solid rgba(98, 242, 219, 0.3);
       border-bottom: 1px solid rgba(98, 242, 219, 0.3);
-    }
-
-    .menu-admin {
-      margin-top: 10px;
-      border-top: 1px dashed rgba(98, 242, 219, 0.3);
-      color: #62f2db;
     }
 
     /* CONTENIDO CENTRADO Y LARGO */
@@ -281,7 +277,8 @@
 <body>
 
   <header>
-    <a href="#" class="logo">JORGE CYBERSPACE</a>
+    <!-- Haz doble clic en el logo para abrir el panel si estás en celular/PC -->
+    <a id="logo-admin" class="logo" ondblclick="activarPanelSecreto()">JORGE CYBERSPACE</a>
     <div class="search-container">
       <div class="search-bar">
         <span>🔍 &nbsp;</span>
@@ -302,7 +299,6 @@
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Minecraft')">Minecraft</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Programas')">Programas</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Sistemas')">Sistemas</a>
-      <a class="menu-item menu-admin" onclick="mostrarFormularioAdmin(this)">➕ Añadir Juego</a>
     </nav>
 
     <main class="content-area">
@@ -352,8 +348,8 @@
   </div>
 
   <script>
-    // URL DE TU BASE DE DATOS REALTIME
     const URL_FIREBASE = "https://jorgecyberspace-5d45e-default-rtdb.firebaseio.com/juegos.json";
+    const CLAVE_ADMIN = "1234"; 
 
     let datosContenido = {};
     let seccionActual = 'Emuladores';
@@ -366,7 +362,6 @@
         if (data) {
           datosContenido = data;
         } else {
-          // Si está vacía por primera vez, montamos PCSX2 Portable de una vez
           datosContenido = {
             'Emuladores': [{ nombre: 'PCSX2 Portable', url: 'https://www.mediafire.com/file/whqmv0xixjaas4o/PCSX2_Portable__Jorge-CyberSpace.7z/file' }]
           };
@@ -427,15 +422,27 @@
       cargarContenido(nombreSeccion);
     }
 
-    function mostrarFormularioAdmin(elemento) {
-      const items = document.querySelectorAll('.menu-item');
-      items.forEach(item => item.classList.remove('active'));
-      elemento.classList.add('active');
+    function activarPanelSecreto() {
+      const pass = prompt("Acceso Administrador - Introduce tu clave:");
+      if (pass === CLAVE_ADMIN) {
+        const items = document.querySelectorAll('.menu-item');
+        items.forEach(item => item.classList.remove('active'));
 
-      document.getElementById('titulo-seccion').textContent = 'Panel de Montaje';
-      document.getElementById('lista-proyectos').style.display = 'none';
-      document.getElementById('panel-admin').style.display = 'flex';
+        document.getElementById('titulo-seccion').textContent = 'Panel Secreto de Montaje';
+        document.getElementById('lista-proyectos').style.display = 'none';
+        document.getElementById('panel-admin').style.display = 'flex';
+      } else if (pass !== null) {
+        alert("Clave incorrecta.");
+      }
     }
+
+    // Atajo de teclado: Ctrl + M abre el panel
+    document.addEventListener('keydown', function(event) {
+      if (event.ctrlKey && event.key.toLowerCase() === 'm') {
+        event.preventDefault();
+        activarPanelSecreto();
+      }
+    });
 
     async function agregarJuegoDirecto() {
       const categoria = document.getElementById('admin-categoria').value;
@@ -454,7 +461,6 @@
       datosContenido[categoria].push({ nombre: nombre, url: url });
 
       try {
-        // Enviar a la nube (Firebase)
         await fetch(URL_FIREBASE, {
           method: 'PUT',
           body: JSON.stringify(datosContenido)
@@ -463,7 +469,7 @@
         document.getElementById('admin-nombre').value = '';
         document.getElementById('admin-url').value = '';
 
-        alert('¡Montado en la nube! Ya le sale a todo el mundo que visite la página.');
+        alert('¡Montado en la nube con éxito!');
 
         const menuItems = document.querySelectorAll('.menu-item');
         menuItems.forEach(item => {
