@@ -3,40 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Etiqueta de Google Console -->
-    <meta name="google-site-verification" content="Tcy9hVZrqCfzJnk_oImJ4oTlncO6nLB-IUQUQGjr79Y" />
-    <title>Jorge CyberSpace</title>
+    <title>Jorge CyberSpace - Juegos PC, Emuladores y Más</title>
     
-    <style>
-        /* Estilos básicos para evitar la pantalla blanca */
-        body {
-            background-color: #121212; /* Fondo oscuro */
-            color: #ffffff;            /* Texto blanco */
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        .seccion {
-            background-color: #1e1e24;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #333;
-        }
-        a {
-            color: #00d2ff;
-        }
-    </style>
+    <!-- Verificación de Google Search Console -->
+    <meta name="google-site-verification" content="Tcy9hVZrqCfzJnk_oImJ4oTlncO6nLB-IUQUQGjr79Y" />
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>Jorge CyberSpace</h1>
-    <p>Bienvenido al portal de juegos y software PC.</p>
+    <header>
+        <h1>Jorge CyberSpace</h1>
+        <p>Tu portal de juegos de PC, emuladores y software</p>
+        
+        <!-- Búsqueda -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar juegos, emuladores...">
+            <button id="searchBtn">🔍</button>
+        </div>
+    </header>
 
-    <div class="seccion">
-        <h2>Sección de Juegos</h2>
-        <p>Aquí estarán los enlaces de descarga en ZIP.</p>
-    </div>
+    <nav>
+        <ul>
+            <li><a href="#emuladores">Emuladores</a></li>
+            <li><a href="#juegos-pc">Juegos PC</a></li>
+            <li><a href="#minecraft">Minecraft PC</a></li>
+        </ul>
+    </nav>
 
+    <main>
+        <!-- Sección Emuladores -->
+        <section id="emuladores">
+            <h2>Emuladores</h2>
+            <div class="games-grid">
+                <!-- Aquí van tus tarjetas de emuladores -->
+            </div>
+        </section>
+
+        <!-- Sección Juegos PC -->
+        <section id="juegos-pc">
+            <h2>Juegos PC</h2>
+            <div class="games-grid">
+                <!-- Aquí van tus tarjetas de juegos de PC -->
+            </div>
+        </section>
+
+        <!-- Sección Minecraft PC -->
+        <section id="minecraft">
+            <h2>Minecraft PC</h2>
+            <div class="games-grid">
+                <!-- Aquí van los archivos de Minecraft -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Jorge CyberSpace - Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Firebase y scripts JS -->
+    <script src="script.js"></script>
 </body>
 </html>
