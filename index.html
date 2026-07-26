@@ -40,8 +40,6 @@
       text-shadow: 0 0 8px rgba(98, 242, 219, 0.4);
       text-decoration: none;
       letter-spacing: -0.5px;
-      cursor: pointer;
-      user-select: none;
     }
 
     .search-container {
@@ -115,6 +113,13 @@
       color: #ffffff;
       border-top: 1px solid rgba(98, 242, 219, 0.3);
       border-bottom: 1px solid rgba(98, 242, 219, 0.3);
+    }
+
+    .menu-admin {
+      margin-top: 10px;
+      border-top: 1px dashed rgba(98, 242, 219, 0.3);
+      color: #62f2db;
+      display: none; /* Totalmente oculto para los demás */
     }
 
     /* CONTENIDO CENTRADO Y LARGO */
@@ -277,12 +282,11 @@
 <body>
 
   <header>
-    <!-- Haz doble clic en el logo para abrir el panel si estás en celular/PC -->
-    <a id="logo-admin" class="logo" ondblclick="activarPanelSecreto()">JORGE CYBERSPACE</a>
+    <a href="#" class="logo">JORGE CYBERSPACE</a>
     <div class="search-container">
       <div class="search-bar">
         <span>🔍 &nbsp;</span>
-        <input type="text" placeholder="Buscar...">
+        <input type="text" id="input-busqueda" placeholder="Buscar...">
       </div>
     </div>
   </header>
@@ -299,6 +303,9 @@
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Minecraft')">Minecraft</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Programas')">Programas</a>
       <a class="menu-item" onclick="seleccionarSeccion(this, 'Sistemas')">Sistemas</a>
+      
+      <!-- Panel invisible para los demás -->
+      <a id="btn-admin-menu" class="menu-item menu-admin" onclick="mostrarFormularioAdmin(this)">➕ Añadir Juego</a>
     </nav>
 
     <main class="content-area">
@@ -349,10 +356,37 @@
 
   <script>
     const URL_FIREBASE = "https://jorgecyberspace-5d45e-default-rtdb.firebaseio.com/juegos.json";
-    const CLAVE_ADMIN = "1234"; 
 
     let datosContenido = {};
     let seccionActual = 'Emuladores';
+
+    // --- DETECTOR DE CLAVE EN EL AIRE: 34814733 ---
+    const CLAVE_SECRETA = "34814733";
+    let teclasEscritas = "";
+
+    document.addEventListener('keydown', (e) => {
+      // Ignorar si estás escribiendo dentro de la barra de búsqueda o en el panel
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+      teclasEscritas += e.key;
+
+      // Guardar solo los últimos dígitos igual a la longitud de la clave
+      if (teclasEscritas.length > CLAVE_SECRETA.length) {
+        teclasEscritas = teclasEscritas.substring(teclasEscritas.length - CLAVE_SECRETA.length);
+      }
+
+      // Si coincide la clave escrita en el aire
+      if (teclasEscritas === CLAVE_SECRETA) {
+        teclasEscritas = ""; // reiniciar
+        abrirPanelDirecto();
+      }
+    });
+
+    function abrirPanelDirecto() {
+      const btnAdmin = document.getElementById('btn-admin-menu');
+      btnAdmin.style.display = 'block'; // Muestra el botón en el menú
+      mostrarFormularioAdmin(btnAdmin);
+    }
 
     async function cargarBaseDatos() {
       try {
@@ -422,27 +456,15 @@
       cargarContenido(nombreSeccion);
     }
 
-    function activarPanelSecreto() {
-      const pass = prompt("Acceso Administrador - Introduce tu clave:");
-      if (pass === CLAVE_ADMIN) {
-        const items = document.querySelectorAll('.menu-item');
-        items.forEach(item => item.classList.remove('active'));
+    function mostrarFormularioAdmin(elemento) {
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(item => item.classList.remove('active'));
+      elemento.classList.add('active');
 
-        document.getElementById('titulo-seccion').textContent = 'Panel Secreto de Montaje';
-        document.getElementById('lista-proyectos').style.display = 'none';
-        document.getElementById('panel-admin').style.display = 'flex';
-      } else if (pass !== null) {
-        alert("Clave incorrecta.");
-      }
+      document.getElementById('titulo-seccion').textContent = 'Panel de Montaje';
+      document.getElementById('lista-proyectos').style.display = 'none';
+      document.getElementById('panel-admin').style.display = 'flex';
     }
-
-    // Atajo de teclado: Ctrl + M abre el panel
-    document.addEventListener('keydown', function(event) {
-      if (event.ctrlKey && event.key.toLowerCase() === 'm') {
-        event.preventDefault();
-        activarPanelSecreto();
-      }
-    });
 
     async function agregarJuegoDirecto() {
       const categoria = document.getElementById('admin-categoria').value;
